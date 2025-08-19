@@ -10,7 +10,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import footstep.footstep.dtos.users.RegisterDTO;
+import footstep.footstep.dtos.users.RegisterRequestDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -67,7 +67,7 @@ public class User implements UserDetails {
   @UpdateTimestamp
   private LocalDateTime updatedAt;
 
-  public User(RegisterDTO data) {
+  public User(RegisterRequestDTO data) {
     this.username = data.username();
     this.email = data.email();
     this.biography = data.biography();
