@@ -41,6 +41,7 @@ public class SecurityConfig {
     return http
             .authorizeHttpRequests(authorize -> authorize
                                     .requestMatchers(HttpMethod.POST, "users/register/user").permitAll()
+                                    .requestMatchers(HttpMethod.POST, "users/login/username").permitAll()
                                     .anyRequest().authenticated())
             .csrf(csrf -> csrf.disable())
             .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
