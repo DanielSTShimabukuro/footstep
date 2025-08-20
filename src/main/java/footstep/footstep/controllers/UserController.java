@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import footstep.footstep.dtos.users.LoginRequestDTO;
 import footstep.footstep.dtos.users.LoginResponseDTO;
 import footstep.footstep.dtos.users.RegisterRequestDTO;
 import footstep.footstep.services.UserService;
@@ -33,5 +34,12 @@ public class UserController {
     LoginResponseDTO response = this.service.registerUser(data);
 
     return new ResponseEntity<>(response, HttpStatus.CREATED);
+  }
+
+  @PostMapping("login/username")
+  public ResponseEntity<LoginResponseDTO> loginByUsername(@Valid @RequestBody LoginRequestDTO data) throws Exception {
+    LoginResponseDTO response = this.service.loginByUsername(data);
+
+    return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }
