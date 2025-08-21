@@ -1,5 +1,6 @@
 package footstep.footstep.services;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import footstep.footstep.dtos.users.RegisterRequestDTO;
 import footstep.footstep.models.User;
 import footstep.footstep.models.UserRole;
 import footstep.footstep.repositories.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -56,11 +58,11 @@ public class UserService {
 
   private void validateRegisterRequest(RegisterRequestDTO data) throws Exception {
     if (this.repository.findUserByUsername(data.username()).isPresent()) {
-      throw new IllegalAccessException("Invalid Username.");
+      throw new DataIntegrityViolationException("Invalid Username.");
     }
 
     if (this.repository.findUserByEmail(data.email()).isPresent()) {
-      throw new IllegalAccessException("Invalid Email.");
+      throw new DataIntegrityViolationException("Invalid Email.");
     }
   }
   
@@ -77,6 +79,6 @@ public class UserService {
   }
 
   public User findUserByUsername(String username) throws Exception {
-    return this.repository.findUserByUsername(username).orElseThrow(() -> new Exception("User Not Found."));
+    return this.repository.findUserByUsername(username).orElseThrow(() -> new EntityNotFoundException("User Not Found."));
   }
 }
