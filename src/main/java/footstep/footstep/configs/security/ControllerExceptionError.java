@@ -7,13 +7,21 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import footstep.footstep.dtos.exception.ExceptionDTO;
+import jakarta.persistence.EntityNotFoundException;
 
 @RestControllerAdvice
 public class ControllerExceptionError {
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ExceptionDTO> handleDuplicateEntry (DataIntegrityViolationException exception) {
+    public ResponseEntity<ExceptionDTO> handleDataIntegrityViolationException (DataIntegrityViolationException exception) {
         ExceptionDTO exceptionDTO = new ExceptionDTO(exception.getMessage(), "400");
 
         return new ResponseEntity<>(exceptionDTO, HttpStatus.BAD_REQUEST);
+    
+    }
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ExceptionDTO> handleEntityNotFoundException (EntityNotFoundException exception) {
+        ExceptionDTO exceptionDTO = new ExceptionDTO(exception.getMessage(), "404");
+
+        return new ResponseEntity<>(exceptionDTO, HttpStatus.NOT_FOUND);
     }
 }
